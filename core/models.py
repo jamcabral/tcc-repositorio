@@ -46,7 +46,7 @@ class Aluno(models.Model):
     nome_aluno = models.CharField(verbose_name="Nome Aluno", max_length=50)
     id_curso_aluno = models.ForeignKey(Curso, verbose_name="Curso", on_delete=models.CASCADE)
     def __str__(self):
-        return self.mat_aluno + " - " + self.nome_aluno
+        return  'NOME: ' + self.mat_aluno + " - " + self.nome_aluno
 
 
 class Sala(models.Model):

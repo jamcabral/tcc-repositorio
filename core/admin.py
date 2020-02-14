@@ -8,7 +8,6 @@ admin.site.index_title = "TCC SISTEMA"
 
 admin.site.register(Turma)
 admin.site.register(Professor)
-admin.site.register(Coordenador)
 admin.site.register(Aluno)
 admin.site.register(Sala)
 admin.site.register(Tcc)
@@ -45,7 +44,10 @@ class DefesaAdmin(admin.ModelAdmin):
     list_display = ('id_tcc_df', 'id_sala_df', 'dt_df', 'banca1_df', 'banca2_df')
     search_fields = ['id_tcc_df', 'id_sala_df', 'dt_df', 'banca1_df', 'banca2_df']
 
+class CoordenadorAdmin(admin.ModelAdmin):
+    list_display = ('id_coordenador', 'nome_coordenador', 'id_curso_coordenador')
+    search_fields = ['id_coordenador', 'nome_coordenador', 'id_curso_coordenador']
 
 admin.site.register(Curso, CursoAdmin)
 admin.site.register(Defesa, DefesaAdmin)
-
+admin.site.register(Coordenador, CoordenadorAdmin)

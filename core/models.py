@@ -101,8 +101,8 @@ class Defesa(models.Model):
     id_tcc_df = models.ForeignKey(Tcc, related_name='TemaApresentacao', on_delete=models.CASCADE)
     id_sala_df = models.ForeignKey(Sala, related_name='SaladaApresentacao', on_delete=models.CASCADE)
     dt_df = models.DateTimeField(verbose_name="Data e Hora da Apresentacao", auto_now=False, auto_now_add=False)
-    banca1_df = models.ForeignKey(Professor, related_name='Bancaexaminadora_defesa', on_delete=models.CASCADE)
-    banca2_df = models.ForeignKey(Professor, related_name='Bancae_xaminadora_defesa', on_delete=models.CASCADE)
+    banca1_df = models.ForeignKey(Professor, related_name='Bancaexaminadora_defesa', on_delete=models.CASCADE, blank=True, null=True)
+    banca2_df = models.ForeignKey(Professor, related_name='Bancae_xaminadora_defesa', on_delete=models.CASCADE, blank=True, null=True)
     def __str__(self):
         return self.id_sala_df.nome_sala
     class Meta:

@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/jammesson/PycharmProjects/tcc-repositorio/venvtcc"
+set -gx VIRTUAL_ENV "/home/jammesson/PycharmProjects/tcc-repositorio/tcc-repositorio/venvtcc"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

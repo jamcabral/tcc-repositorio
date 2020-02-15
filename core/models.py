@@ -23,7 +23,7 @@ class Curso(models.Model):
 class Turma(models.Model):
     id_turma = models.AutoField(primary_key=True)
     nome_turma = models.CharField(verbose_name="Nome da Turma", max_length=50)
-    id_curso_turma = models.ForeignKey(Curso, related_name='Curso', on_delete=models.CASCADE)
+    id_curso_turma = models.ForeignKey(Curso, related_name="id_curso_turma", on_delete=models.CASCADE)
     periodo_turma = models.IntegerField(verbose_name="Periodo Turma")
     def __str__(self):
         return self.nome_turma
@@ -49,7 +49,7 @@ class Professor(models.Model):
 class Coordenador(models.Model):
     id_coordenador = models.AutoField(verbose_name="Identificador Coornedaor", primary_key=True)
     nome_coordenador = models.CharField(verbose_name="Nome Coordenador", max_length=50)
-    id_curso_coordenador = models.ForeignKey(Curso, verbose_name="Curso", on_delete=models.CASCADE)
+    id_curso_coordenador = models.ForeignKey(Curso, related_name="id_curso_coordenador", verbose_name="Curso", on_delete=models.CASCADE)
     def __str__(self):
         return self.nome_coordenador
     class Meta:
@@ -60,7 +60,7 @@ class Coordenador(models.Model):
 class Aluno(models.Model):
     mat_aluno = models.AutoField(verbose_name="Matricula Aluno", primary_key=True)
     nome_aluno = models.CharField(verbose_name="Nome Aluno", max_length=50)
-    id_curso_aluno = models.ForeignKey(Curso, verbose_name="Curso", on_delete=models.CASCADE)
+    id_curso_aluno = models.ForeignKey(Curso, related_name="id_curso_aluno", verbose_name="Curso", on_delete=models.CASCADE)
     def __str__(self):
         return  self.nome_aluno
     class Meta:
@@ -80,12 +80,12 @@ class Sala(models.Model):
 
 class Tcc(models.Model):
     id_tcc = models.AutoField(verbose_name="Identificador TCC", primary_key=True)
-    id_aluno_tcc = models.ForeignKey(Aluno, related_name='AutorTcc', on_delete=models.CASCADE)
+    id_aluno_tcc = models.ForeignKey(Aluno, related_name='id_aluno_tcc', on_delete=models.CASCADE)
     ano_tcc = models.IntegerField(verbose_name="Ano")
     tema_tcc = models.CharField(verbose_name="Tema TCC", max_length=100)
-    id_curso_tcc = models.ForeignKey(Curso, related_name='NomeCurso', on_delete=models.CASCADE)
-    orientador_tcc = models.ForeignKey(Professor, related_name='Orientador', on_delete=models.CASCADE)
-    co_orientador_tcc = models.ForeignKey(Professor, related_name='Coorientador', on_delete=models.CASCADE)
+    id_curso_tcc = models.ForeignKey(Curso, related_name='id_curso_tcc', on_delete=models.CASCADE)
+    orientador_tcc = models.ForeignKey(Professor, related_name='orientador_tcc', on_delete=models.CASCADE)
+    co_orientador_tcc = models.ForeignKey(Professor, related_name='co_orientador_tcc', on_delete=models.CASCADE)
     carta_aceite_tcc = models.FileField(verbose_name="CartadeAceita", upload_to=tcc_directory_path, blank=True, null=True)
     convite_banca_tcc = models.FileField(verbose_name="ConviteBanca", upload_to=tcc_directory_path , blank=True, null=True)
     marcacao_banca_tcc = models.FileField(verbose_name="MarcaçãoBanca", upload_to=tcc_directory_path, blank=True, null=True)
@@ -98,11 +98,11 @@ class Tcc(models.Model):
 
 class Defesa(models.Model):
     id_df = models.AutoField(verbose_name="Identificador Apresentacao", primary_key=True)
-    id_tcc_df = models.ForeignKey(Tcc, related_name='TemaApresentacao', on_delete=models.CASCADE)
-    id_sala_df = models.ForeignKey(Sala, related_name='SaladaApresentacao', on_delete=models.CASCADE)
+    id_tcc_df = models.ForeignKey(Tcc, related_name='id_tcc_df', on_delete=models.CASCADE)
+    id_sala_df = models.ForeignKey(Sala, related_name='id_sala_df', on_delete=models.CASCADE)
     dt_df = models.DateTimeField(verbose_name="Data e Hora da Apresentacao", auto_now=False, auto_now_add=False)
-    banca1_df = models.ForeignKey(Professor, related_name='Bancaexaminadora_defesa', on_delete=models.CASCADE, blank=True, null=True)
-    banca2_df = models.ForeignKey(Professor, related_name='Bancae_xaminadora_defesa', on_delete=models.CASCADE, blank=True, null=True)
+    banca1_df = models.ForeignKey(Professor, related_name='banca1_df', on_delete=models.CASCADE, blank=True, null=True)
+    banca2_df = models.ForeignKey(Professor, related_name='banca2_df', on_delete=models.CASCADE, blank=True, null=True)
     def __str__(self):
         return self.id_sala_df.nome_sala
     class Meta:

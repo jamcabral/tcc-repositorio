@@ -6,48 +6,52 @@ admin.site.site_header = "TCC SISTEMA"
 admin.site.site_title = "TCC SISTEMA"
 admin.site.index_title = "TCC SISTEMA"
 
-admin.site.register(Turma)
-admin.site.register(Professor)
-admin.site.register(Aluno)
-admin.site.register(Sala)
-admin.site.register(Tcc)
-
 
 class CursoAdmin(admin.ModelAdmin):
     list_display = ('id_curso', 'nome_curso')
     search_fields = ['id_curso', 'nome_curso']
 
-"""
-class radiologia_examesAdmin(ModelAdmin):
-    list_display = ('nome_paciente_paciente', 'radilogia_categoria', 'dt_solicitacao_exame', 'status_radiologia_exame', 'nome_tec_radiologia', 'anexo_radiologia_exame',
-     'anexo2_radiologia_exame', 'anexo3_radiologia_exame', 'anexo4_radiologia_exame', 'anexo5_radiologia_exame',)
-    search_fields = ['nome_paciente_paciente__nome_paciente', 'nome_paciente_paciente__cpf_paciente', 'status_radiologia_exame','nome_paciente_paciente__dt_nascimento_paciente']
-    autocomplete_fields = ['radilogia_categoria', 'nome_paciente_paciente', 'nome_tec_radiologia']
-    fieldsets = (
-        ('AREA DE SOLICITAÇÃO DE EXAMES (MÉDICOS)', {
-            'fields': ('nome_paciente_paciente', 'dt_nascimento_exame', 'radilogia_categoria', 'obs_radiologia_exame')
-        }),
-        ('AREA PARA EXECUÇÃO DE EXAMES (TEC. RADIOLOGIA)', {
-            'classes': ('collapse',),
-            'fields': ('anexo_radiologia_exame', 'anexo2_radiologia_exame', 'anexo3_radiologia_exame', 'anexo4_radiologia_exame', 'anexo5_radiologia_exame',
-            'status_radiologia_exame', 'nome_tec_radiologia','dt_realizado_exame',),
-        }),
-    )
-    
+class TurmaAdmin(admin.ModelAdmin):
+    list_display = ('id_turma', 'nome_turma', 'id_curso_turma', 'periodo_turma')
+    search_fields = ['id_turma', 'nome_turma', 'id_curso_turma', 'periodo_turma']
+    autocomplete_fields = ['id_curso_turma' ]
 
-class radiologia_categoriaAdmin(ModelAdmin):
-    search_fields = ['nome_radiologia_categoria']
-    list_display = ('nome_radiologia_categoria', 'id_radiologia_categoria',)
-"""
+class ProfessorAdmin(admin.ModelAdmin):
+    list_display = ('id_professor', 'nome_professor', 'matricula_professor', 'condicao_professor')
+    search_fields = ['id_professor', 'nome_professor', 'matricula_professor', 'condicao_professor']
+
+class AlunoAdmin(admin.ModelAdmin):
+    list_display = ('mat_aluno', 'nome_aluno', 'id_curso_aluno')
+    search_fields = ['mat_aluno', 'nome_aluno', 'id_curso_aluno']
+    autocomplete_fields = ['id_curso_aluno' ]
+
+
+class SalaAdmin(admin.ModelAdmin):
+    list_display = ('id_sala', 'nome_sala', 'localizacao_sala')
+    search_fields = ['id_sala', 'nome_sala', 'localizacao_sala']
+
+class TccAdmin(admin.ModelAdmin):
+    list_display = ('id_tcc', 'id_aluno_tcc', 'ano_tcc', 'tema_tcc', 'id_curso_tcc', 'orientador_tcc', 'co_orientador_tcc', 'carta_aceite_tcc', 'convite_banca_tcc', 'marcacao_banca_tcc')
+    search_fields = ['id_tcc', 'id_aluno_tcc', 'ano_tcc', 'tema_tcc', 'id_curso_tcc', 'orientador_tcc', 'co_orientador_tcc', 'carta_aceite_tcc', 'convite_banca_tcc', 'marcacao_banca_tcc']
+    autocomplete_fields = ['id_aluno_tcc', 'id_curso_tcc', 'orientador_tcc', 'co_orientador_tcc', ]
+
 
 class DefesaAdmin(admin.ModelAdmin):
     list_display = ('id_tcc_df', 'id_sala_df', 'dt_df', 'banca1_df', 'banca2_df')
     search_fields = ['id_tcc_df', 'id_sala_df', 'dt_df', 'banca1_df', 'banca2_df']
+    autocomplete_fields = ['id_sala_df', 'banca1_df', 'banca2_df']
+
 
 class CoordenadorAdmin(admin.ModelAdmin):
     list_display = ('id_coordenador', 'nome_coordenador', 'id_curso_coordenador')
     search_fields = ['id_coordenador', 'nome_coordenador', 'id_curso_coordenador']
+    autocomplete_fields = ['id_curso_coordenador']
 
 admin.site.register(Curso, CursoAdmin)
 admin.site.register(Defesa, DefesaAdmin)
 admin.site.register(Coordenador, CoordenadorAdmin)
+admin.site.register(Turma, TurmaAdmin)
+admin.site.register(Professor, ProfessorAdmin)
+admin.site.register(Aluno, AlunoAdmin)
+admin.site.register(Sala, SalaAdmin)
+admin.site.register(Tcc, TccAdmin)

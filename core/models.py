@@ -21,10 +21,14 @@ class Curso(models.Model):
 
 
 class Turma(models.Model):
+    class STATUS_TURMA_CHOICE(models.TextChoices):
+        INTERNO = 'EM_ANDAMENTO', _('EM_ANDAMENTO'),
+        EXTERNO = 'ENCERRADA', _('ENCERRADA'),
     id_turma = models.AutoField(primary_key=True)
     nome_turma = models.CharField(verbose_name="Nome da Turma", max_length=50)
     id_curso_turma = models.ForeignKey(Curso, related_name="id_curso_turma", on_delete=models.CASCADE)
     periodo_turma = models.CharField(verbose_name="Periodo Turma", max_length=6)
+    status_turma = models.CharField(verbose_name="Em Andamento ou Encerrada", max_length=50, choices=STATUS_TURMA_CHOICE.choices, default=STATUS_TURMA_CHOICE.EM_ANDAMENTO)
     def __str__(self):
         return self.nome_turma
     class Meta:

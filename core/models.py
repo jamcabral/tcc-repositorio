@@ -24,7 +24,7 @@ class Turma(models.Model):
     id_turma = models.AutoField(primary_key=True)
     nome_turma = models.CharField(verbose_name="Nome da Turma", max_length=50)
     id_curso_turma = models.ForeignKey(Curso, related_name="id_curso_turma", on_delete=models.CASCADE)
-    periodo_turma = models.IntegerField(verbose_name="Periodo Turma")
+    periodo_turma = models.CharField(verbose_name="Periodo Turma", max_length=6)
     def __str__(self):
         return self.nome_turma
     class Meta:
@@ -81,7 +81,7 @@ class Sala(models.Model):
 class Tcc(models.Model):
     id_tcc = models.AutoField(verbose_name="Identificador TCC", primary_key=True)
     id_aluno_tcc = models.ForeignKey(Aluno, related_name='id_aluno_tcc', on_delete=models.CASCADE)
-    ano_tcc = models.IntegerField(verbose_name="Ano")
+    id_turma_tcc = models.ForeignKey(Turma, on_delete=models.CASCADE)
     tema_tcc = models.CharField(verbose_name="Tema TCC", max_length=100)
     id_curso_tcc = models.ForeignKey(Curso, related_name='id_curso_tcc', on_delete=models.CASCADE)
     orientador_tcc = models.ForeignKey(Professor, related_name='orientador_tcc', on_delete=models.CASCADE)

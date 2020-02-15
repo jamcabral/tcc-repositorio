@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Turma
 
 
 def HomeView(request):
@@ -7,4 +8,6 @@ def HomeView(request):
 
 
 def TccView(request):
-    return render(request, 'tcc.html')
+    data = {}
+    data['turma'] = Turma.objects.all()
+    return render(request, 'tcc.html', data)

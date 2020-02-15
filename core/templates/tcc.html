@@ -24,7 +24,7 @@
         <a class="nav-link" href="admin/">Acesso Sistema<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Meus TCC</a>
+        <a class="nav-link" href="tcc">Meus TCC</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Sala TCC</a>
@@ -35,16 +35,31 @@
     </ul>
   </div>
 </nav>
+
 <br><br><br>
-<article class="container">
-<div class="text-center">
 
-
-
-
-
+{% for Turma in turma %}
+      {% if Turma.status_turma == "ATIVO" %}
+<div class="card text-center">
+  <div class="card-header">{{ Turma.nome_turma }} - {{ Turma.periodo_turma }}</div>
+  <div class="card-body">
+    <h5 class="card-title">Turma</h5>
+    <p class="card-text">Para acessar os alunos desta turma clique no botão abaixo </p>
+    <a href="#" class="btn btn-primary">VISUALIZAR ALUNOS</a>
+  </div>
+  <div class="card-footer text-muted">
+  Nothing
+  </div>
 </div>
-</article>
+<br>
+  {% else %}
+  Não tem turmas cadastradas Ativas
+  {% endif %}
+
+{% endfor %}
+
+
+
 <!-- Footer -->
 <!-- Footer -->
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>

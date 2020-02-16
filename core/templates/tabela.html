@@ -1,0 +1,132 @@
+<!doctype html>
+<html class="no-js" lang="pt-br">
+<head>
+{% load static %}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TCC</title>
+<link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+</head>
+
+
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <a class="navbar-brand" href="#">TCC</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="admin/">Acesso Sistema<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="tcc">Meus TCC</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Sala TCC</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<br><br><br>
+
+<div id="accordion">
+
+{% for Turma in turma %}
+
+  <div class="card">
+    <div class="card-header" id="heading{{ Turma.nome_turma }}">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ Turma.nome_turma }}" aria-expanded="true" aria-controls="collapse{{ Turma.nome_turma }}">
+          Turma de TCC {{ Turma.nome_turma }}
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapse{{ Turma.nome_turma }}" class="collapse" aria-labelledby="heading{{ Turma.nome_turma }}" data-parent="#accordion">
+      <div class="card-body">
+
+<!-- Criar Filtros para Visualização do Table-->
+<div class="m-3">
+<div class="" style="overflow-x: scroll; overflow-y: hidden; width: 100%; white-space:nowrap;">
+<table class="table table-sm table-hover">
+  <thead>
+    <tr class="thead-dark">
+    <th scope="col">Aluno:</th>
+      <th scope="col">Turma:</th>
+      <th scope="col">Tema:</th>
+      <th scope="col">Cursos:</th>
+      <th scope="col">Orientador:</th>
+      
+
+    </tr>
+  </thead>
+  <tbody id="myTable">
+    {% for tcc in tcc %}
+
+
+  <tr>
+        {% if  Turma.nome_turma  == tcc.id_turma_tcc.nome_turma %}
+    <td>
+            {{ tcc.id_aluno_tcc }}
+    </td>
+      <td>
+            {{ tcc.id_turma_tcc.nome_turma }}
+     </td>
+      <td>
+            {{ tcc.tema_tcc }}
+     </td>
+      <td>
+            {{ tcc.id_curso_tcc }}
+      </td>
+
+      <td>
+            {{ tcc.orientador_tcc }}
+  </td>
+    </tr>
+  </tbody>
+        {% endif %}   
+    {% endfor %}
+
+</table>
+    </div>
+
+
+{% endfor %}
+</div>
+
+<!-- Footer -->
+<!-- Footer -->
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+
+
+<script>
+      $(document).foundation();
+    </script>
+
+    <script>
+window.onscroll = function() {myFunction()};
+
+var header = document.getElementById("myHeader");
+var sticky = header.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset > sticky) {
+    header.classList.add("sticky");
+  } else {
+    header.classList.remove("sticky");
+  }
+}
+</script>
+</body>
+</html>

@@ -27,7 +27,7 @@
         <a class="nav-link" href="tcc">Meus TCC</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Sala TCC</a>
+        <a class="nav-link" href="tabela">Sala TCC</a>
       </li>
       <li class="nav-item">
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -37,25 +37,84 @@
 </nav>
 
 <br><br><br>
+  {% for Turma in turma %}
+    {% if Turma.status_turma == "ATIVO" %}
+
+  <div class="card text-center">
+    <div class="card-header">{{ Turma.nome_turma }} - {{ Turma.periodo_turma }}</div>
+    <div class="card-body">
+      <h5 class="card-title">Para acessar os alunos desta turma clique no botão abaixo </h5>
+      <p class="card-text"></p>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl{{ Turma.nome_turma }}">Visualizar Alunos</button>
+    </div>
+    <div class="card-footer text-muted">
+    
+    </div>
+  </div>
+  <br>
+    {% endif %}
+  {% endfor %}
+
 
 {% for Turma in turma %}
-      {% if Turma.status_turma == "ATIVO" %}
-<div class="card text-center">
-  <div class="card-header">{{ Turma.nome_turma }} - {{ Turma.periodo_turma }}</div>
-  <div class="card-body">
-    <h5 class="card-title">Turma</h5>
-    <p class="card-text">Para acessar os alunos desta turma clique no botão abaixo </p>
-    <a href="#" class="btn btn-primary">VISUALIZAR ALUNOS</a>
-  </div>
-  <div class="card-footer text-muted">
-  Nothing
-  </div>
+    {% if Turma.status_turma == "ATIVO" %}
+      <div class="modal fade bd-example-modal-xl{{ Turma.nome_turma }}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-xl" role="document">
+                          <div class="modal-content">
+                         
+<!-- Criar Filtros para Visualização do Table-->
+<div class="m-3">
+<div class="" style="overflow-x: scroll; overflow-y: hidden; width: 100%; white-space:nowrap;">
+<table class="table table-sm table-hover">
+  <thead>
+    <tr class="thead-dark">
+    <th scope="col">Aluno:</th>
+      <th scope="col">Turma:</th>
+      <th scope="col">Tema:</th>
+      <th scope="col">Cursos:</th>
+      <th scope="col">Orientador:</th>
+      
+
+    </tr>
+  </thead>
+  <tbody id="myTable">
+    {% for tcc in tcc %}
+
+
+  <tr>
+        {% if  Turma.nome_turma  == tcc.id_turma_tcc.nome_turma %}
+    <td>
+            {{ tcc.id_aluno_tcc }}
+    </td>
+      <td>
+            {{ tcc.id_turma_tcc.nome_turma }}
+     </td>
+      <td>
+            {{ tcc.tema_tcc }}
+     </td>
+      <td>
+            {{ tcc.id_curso_tcc }}
+      </td>
+
+      <td>
+            {{ tcc.orientador_tcc }}
+  </td>
+    </tr>
+  </tbody>
+        {% endif %}   
+    {% endfor %}
+
+</table>
+    </div>
 </div>
-<br>
 
-  {% endif %}
+                          </div>
+          </div>
+      </div>
 
+    {% endif %}
 {% endfor %}
+
 
 
 

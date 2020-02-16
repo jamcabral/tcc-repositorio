@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Curso, Turma, Professor, Coordenador, Aluno, Sala, Tcc, Defesa
+from .models import Curso, Turma, Professor, Coordenador, Aluno, Sala, tcc, Defesa
 
 # Register your models here.
 admin.site.site_header = "TCC SISTEMA"
@@ -39,7 +39,7 @@ class SalaAdmin(admin.ModelAdmin):
 admin.site.register(Sala, SalaAdmin)
 
 
-class TccAdmin(admin.ModelAdmin):
+class tccAdmin(admin.ModelAdmin):
     list_display = ('id_tcc', 'id_aluno_tcc', 'id_turma_tcc', 'id_turma_tcc__periodo_turma',  'tema_tcc', 'id_curso_tcc', 'orientador_tcc', 'co_orientador_tcc', 'carta_aceite_tcc', 'convite_banca_tcc', 'marcacao_banca_tcc')
     list_select_related = ['id_turma_tcc']
     search_fields = ['id_turma_tcc__periodo_turma',]
@@ -48,7 +48,7 @@ class TccAdmin(admin.ModelAdmin):
         return obj.id_turma_tcc.periodo_turma # obj."Atributo do model interno"."atributo do model externo"
     id_turma_tcc__periodo_turma.short_description = 'Turma Periodo'  #Renames column head
 
-admin.site.register(Tcc, TccAdmin)
+admin.site.register(tcc, tccAdmin)
 
 class DefesaAdmin(admin.ModelAdmin):
     list_display = ('id_tcc_df', 'id_sala_df', 'dt_df', 'banca1_df', 'banca2_df')

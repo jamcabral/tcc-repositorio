@@ -66,6 +66,7 @@ class Aluno(models.Model):
     mat_aluno = models.AutoField(verbose_name="Matricula Aluno", primary_key=True)
     nome_aluno = models.CharField(verbose_name="Nome Aluno", max_length=50)
     id_curso_aluno = models.ForeignKey(Curso, related_name="id_curso_aluno", verbose_name="Curso", on_delete=models.CASCADE)
+    periodo_aluno = models.CharField(verbose_name="Periodo Turma", max_length=6)
     def __str__(self):
         return  self.nome_aluno
     class Meta:

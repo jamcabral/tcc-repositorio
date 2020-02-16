@@ -82,7 +82,7 @@
 
 
   <tr>
-        {% if  Turma.nome_turma  == tcc.id_turma_tcc.nome_turma %}
+        {% if  Turma.nome_turma  == tcc.id_turma_tcc.nome_turma and Turma.periodo_turma == tcc.id_aluno_tcc.periodo_aluno %}
     <td>
             {{ tcc.id_aluno_tcc }}
     </td>

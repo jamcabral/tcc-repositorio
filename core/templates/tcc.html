@@ -39,17 +39,18 @@
 <br><br><br>
   {% for Turma in turma %}
     {% if Turma.status_turma == "ATIVO" %}
-
-  <div class="card text-center">
+  <div class="container">
+  <div class="card text-white bg-primary mb-3 text-center">
     <div class="card-header">{{ Turma.nome_turma }} - {{ Turma.periodo_turma }}</div>
     <div class="card-body">
       <h5 class="card-title">Para acessar os alunos desta turma clique no botão abaixo </h5>
       <p class="card-text"></p>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl{{ Turma.nome_turma }}">Visualizar Alunos</button>
+  <button type="button" class="btn btn-light" data-toggle="modal" data-target=".bd-example-modal-xl{{ Turma.nome_turma }}">Visualizar Alunos</button>
     </div>
     <div class="card-footer text-muted">
     
     </div>
+  </div>
   </div>
   <br>
     {% endif %}
@@ -60,7 +61,7 @@
     {% if Turma.status_turma == "ATIVO" %}
       <div class="modal fade bd-example-modal-xl{{ Turma.nome_turma }}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
          <div class="modal-dialog modal-xl" role="document">
-                          <div class="modal-content">
+        <div class="modal-content">
                          
 <!-- Criar Filtros para Visualização do Table-->
 <div class="m-3">

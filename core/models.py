@@ -16,8 +16,8 @@ class Curso(models.Model):
     def __str__(self):
         return self.nome_curso
     class Meta:
-        verbose_name = 'Curso'
-        verbose_name_plural = 'Cursos'
+        verbose_name = '1 - Curso'
+        verbose_name_plural = '1 - Cursos'
 
 
 class Turma(models.Model):
@@ -27,39 +27,53 @@ class Turma(models.Model):
 
     id_turma = models.AutoField(primary_key=True)
     nome_turma = models.CharField(verbose_name="Nome da Turma", max_length=50)
-    id_curso_turma = models.ForeignKey(Curso, related_name="id_curso_turma", on_delete=models.CASCADE)
+    id_curso_turma = models.ForeignKey(Curso, verbose_name="Curso", related_name="id_curso_turma", on_delete=models.CASCADE)
     periodo_turma = models.CharField(verbose_name="Periodo Turma", max_length=6)
     status_turma = models.CharField(verbose_name="Em Andamento ou Encerrada", max_length=50, choices=STATUS_TURMA_CHOICE.choices, default=STATUS_TURMA_CHOICE.ATIVO, blank=True, null=True)
     def __str__(self):
         return self.nome_turma
     class Meta:
-        verbose_name = 'turma'
-        verbose_name_plural = 'turmas'
+        verbose_name = '5 - Turma'
+        verbose_name_plural = '5 - Turmas'
 
 class Professor(models.Model):
     class CONDICAO_CHOICE(models.TextChoices):
         INTERNO = 'INTERNO', _('INTERNO'),
         EXTERNO = 'EXTERNO', _('EXTERNO'),
+    class STATUS_CHOICE(models.TextChoices):
+        ATIVO = 'ATIVO', _('ATIVO'),
+        INATIVO = 'INATIVO', _('INATIVO'),
     
     id_professor = models.AutoField(verbose_name="Matricula Professor", primary_key=True)
     nome_professor = models.CharField(verbose_name="Nome Professor", max_length=50)
     matricula_professor = models.CharField(verbose_name="Matricula Professor", max_length=50)
     condicao_professor = models.CharField(verbose_name="Externo ou Interno", max_length=50, choices=CONDICAO_CHOICE.choices, default=CONDICAO_CHOICE.INTERNO)
+    status_coordenador = models.CharField(verbose_name="Externo ou Interno", max_length=50, choices=STATUS_CHOICE.choices, default=STATUS_CHOICE.ATIVO)
+    dt_inicial = models.DateField(verbose_name="Data Inicial")
+    dt_final = models.DateField(verbose_name="Data Final", blank=True, null=True)    
     def __str__(self):
         return self.nome_professor
     class Meta:
-        verbose_name = 'Professor'
-        verbose_name_plural = 'Professores'
+        verbose_name = '4 - Professor'
+        verbose_name_plural = '4 - Professores'
 
 class Coordenador(models.Model):
-    id_coordenador = models.AutoField(verbose_name="Identificador Coornedaor", primary_key=True)
+    class STATUS_CHOICE(models.TextChoices):
+        ATIVO = 'ATIVO', _('ATIVO'),
+        INATIVO = 'INATIVO', _('INATIVO'),
+    
+    id_coordenador = models.AutoField(verbose_name="Identificador Coordenador", primary_key=True)
     nome_coordenador = models.CharField(verbose_name="Nome Coordenador", max_length=50)
+    matricula_coordenador = models.CharField(verbose_name="Matricula Coordenador", max_length=50)
     id_curso_coordenador = models.ForeignKey(Curso, related_name="id_curso_coordenador", verbose_name="Curso", on_delete=models.CASCADE)
+    status_coordenador = models.CharField(verbose_name="Externo ou Interno", max_length=50, choices=STATUS_CHOICE.choices, default=STATUS_CHOICE.ATIVO)
+    dt_inicial = models.DateField(verbose_name="Data Inicial")
+    dt_final = models.DateField(verbose_name="Data Final", blank=True, null=True)
     def __str__(self):
         return self.nome_coordenador
     class Meta:
-        verbose_name = 'Coordenador'
-        verbose_name_plural = 'Coordenadores'
+        verbose_name = '3 - Coordenador'
+        verbose_name_plural = '3 - Coordenadores'
 
 
 class Aluno(models.Model):
@@ -70,8 +84,8 @@ class Aluno(models.Model):
     def __str__(self):
         return  self.nome_aluno
     class Meta:
-        verbose_name = 'Aluno'
-        verbose_name_plural = 'Alunos'
+        verbose_name = '7 - Aluno'
+        verbose_name_plural = '7 - Alunos'
 
 class Sala(models.Model):
     id_sala = models.AutoField(primary_key=True)
@@ -80,8 +94,8 @@ class Sala(models.Model):
     def __str__(self):
         return self.nome_sala
     class Meta:
-        verbose_name = 'Sala'
-        verbose_name_plural = 'Salas'
+        verbose_name = '6 - Sala'
+        verbose_name_plural = '6 - Salas'
 
 
 class tcc(models.Model):
@@ -105,8 +119,8 @@ class tcc(models.Model):
     #def __str__(self):
         #return 'TEMA: ' + self.tema_tcc + '  |   Nome: ' + self.id_aluno_tcc.nome_aluno
     class Meta:
-        verbose_name = 'tcc'
-        verbose_name_plural = 'tccs'
+        verbose_name = '8 - Tcc'
+        verbose_name_plural = '8 - Tccs'
     
 
 class Defesa(models.Model):
@@ -119,5 +133,12 @@ class Defesa(models.Model):
     def __str__(self):
         return self.id_sala_df.nome_sala
     class Meta:
-        verbose_name = 'Defesa'
-        verbose_name_plural = 'Defesas'
+        verbose_name = '9 - Defesa'
+        verbose_name_plural = '9 - Defesas'
+
+class Periodo(models.Model):
+    id_periodo = models.AutoField(verbose_name="Identificador Periodo", primary_key=True)
+    nome_periodo = models.CharField(max_length=6, blank=False, null=False)
+    class Meta:
+        verbose_name = '2 - Periodo'
+        verbose_name_plural = '2 - Periodos'

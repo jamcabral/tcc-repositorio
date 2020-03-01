@@ -79,6 +79,7 @@ class Coordenador(models.Model):
 class Aluno(models.Model):
     mat_aluno = models.AutoField(verbose_name="Matricula Aluno", primary_key=True)
     nome_aluno = models.CharField(verbose_name="Nome Aluno", max_length=50)
+    matricula_aluno = models.CharField(verbose_name="Matricula Aluno", max_length=15)
     id_curso_aluno = models.ForeignKey(Curso, related_name="id_curso_aluno", verbose_name="Curso", on_delete=models.CASCADE)
     periodo_aluno = models.CharField(verbose_name="Periodo Turma", max_length=6)
     def __str__(self):
@@ -105,6 +106,7 @@ class tcc(models.Model):
         ('Resolvido', 'Resolvido'),
     )
     id_tcc = models.AutoField(verbose_name="Identificador TCC", primary_key=True)
+    professor_disciplica_tcc = models.ForeignKey(Professor, related_name='professor_disciplica_tcc', on_delete=models.CASCADE)
     id_aluno_tcc = models.ForeignKey(Aluno, related_name='id_aluno_tcc', on_delete=models.CASCADE)
     id_turma_tcc = models.ForeignKey(Turma, on_delete=models.CASCADE)
     tema_tcc = models.CharField(verbose_name="Tema TCC", max_length=100)

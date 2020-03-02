@@ -88,7 +88,8 @@ class Coordenador(models.Model):
 
 
 class Aluno(models.Model):
-    mat_aluno = models.AutoField(verbose_name="Matricula Aluno", primary_key=True)
+    mat_aluno = models.AutoField(verbose_name="Id Aluno", primary_key=True)
+    matricula_aluno = models.CharField(verbose_name="Matricula do Aluno", blank=True, null=True)
     nome_aluno = models.CharField(verbose_name="Nome Aluno", max_length=50)
     matricula_aluno = models.CharField(verbose_name="Matricula Aluno", max_length=15)
     id_curso_aluno = models.ForeignKey(Curso, related_name="id_curso_aluno", verbose_name="Curso", on_delete=models.CASCADE)

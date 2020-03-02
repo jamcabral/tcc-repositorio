@@ -10,11 +10,22 @@ from django.utils.translation import gettext_lazy as _
 def tcc_directory_path(instance, filename):
     return 'uploads/tcc/{0}/{1}'.format(instance.id_tcc, filename)
 
+class Periodo(models.Model):
+    id_periodo = models.AutoField(verbose_name="Identificador Periodo", primary_key=True)
+    nome_periodo = models.CharField(max_length=6, blank=False, null=False)
+    def __str__(self):
+        return self.nome_periodo
+    class Meta:
+        verbose_name = '2 - Periodo'
+        verbose_name_plural = '2 - Periodos'
+
+
 class Curso(models.Model):
     id_curso = models.AutoField(verbose_name="Identificador Curso", primary_key=True)
     nome_curso = models.CharField(verbose_name="Nome do Curso", max_length=50)
+    id_periodo_curso = models.ForeignKey (Periodo, related_name='id_periodo_curso', on_delete=models.CASCADE, blank=True, null=True)
     def __str__(self):
-        return self.nome_curso
+        return 'Curso: ' + self.nome_curso + '  |   Periodo: ' + self.id_periodo_curso.nome_periodo
     class Meta:
         verbose_name = '1 - Curso'
         verbose_name_plural = '1 - Cursos'
@@ -65,7 +76,7 @@ class Coordenador(models.Model):
     id_coordenador = models.AutoField(verbose_name="Identificador Coordenador", primary_key=True)
     nome_coordenador = models.CharField(verbose_name="Nome Coordenador", max_length=50)
     matricula_coordenador = models.CharField(verbose_name="Matricula Coordenador", max_length=50)
-    id_curso_coordenador = models.ForeignKey(Curso, related_name="id_curso_coordenador", verbose_name="Curso", on_delete=models.CASCADE)
+    id_curso_coordenador = models.ForeignKey(Curso, related_name='id_curso_coordenador', verbose_name="Curso", on_delete=models.CASCADE)
     status_coordenador = models.CharField(verbose_name="Externo ou Interno", max_length=50, choices=STATUS_CHOICE.choices, default=STATUS_CHOICE.ATIVO)
     dt_inicial = models.DateField(verbose_name="Data Inicial")
     dt_final = models.DateField(verbose_name="Data Final", blank=True, null=True)
@@ -100,12 +111,17 @@ class Sala(models.Model):
 
 
 class tcc(models.Model):
-    STATUS_CHOICES = (
-        ('Pendente', 'Pendente'),
-        ('Em Analise', 'Em Analise'),
-        ('Resolvido', 'Resolvido'),
-    )
-    id_tcc = models.AutoField(verbose_name="Identificador TCC", primary_key=True)
+    class STATUS_CHOICE(models.TextChoices):
+        EmCurso = 'Em Curso', _('Em Curso'),
+        abandono = 'Abandono', _('Abandono'),
+        reprovado = 'Reprovado', _('Reprovado'),
+        aprovado = 'Aprovado', _('Aprovado'),
+    
+    class STATUS_CD_CHOICE(models.TextChoices):
+        Nao = 'Não', _('Não'),
+        Sim = 'Sim', _('Sim'),
+
+    id_tcc = models.AutoField(primary_key=True)
     professor_disciplica_tcc = models.ForeignKey(Professor, related_name='professor_disciplica_tcc', on_delete=models.CASCADE)
     id_aluno_tcc = models.ForeignKey(Aluno, related_name='id_aluno_tcc', on_delete=models.CASCADE)
     id_turma_tcc = models.ForeignKey(Turma, on_delete=models.CASCADE)
@@ -116,10 +132,10 @@ class tcc(models.Model):
     carta_aceite_tcc = models.FileField(verbose_name="CartadeAceita", upload_to=tcc_directory_path, blank=True, null=True)
     convite_banca_tcc = models.FileField(verbose_name="ConviteBanca", upload_to=tcc_directory_path , blank=True, null=True)
     marcacao_banca_tcc = models.FileField(verbose_name="MarcaçãoBanca", upload_to=tcc_directory_path, blank=True, null=True)
-    status_tcc = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pendente')
-
-    #def __str__(self):
-        #return 'TEMA: ' + self.tema_tcc + '  |   Nome: ' + self.id_aluno_tcc.nome_aluno
+    entrega_cd_tcc = models.CharField(max_length=50, choices=STATUS_CD_CHOICE.choices, default=STATUS_CD_CHOICE.Nao)
+    status_tcc = models.CharField(max_length=50, choices=STATUS_CHOICE.choices, default=STATUS_CHOICE.EmCurso)
+    def __str__(self):
+        return 'Titulo: ' + self.tema_tcc + '  |   Autor: ' + self.id_aluno_tcc.nome_aluno  
     class Meta:
         verbose_name = '8 - Tcc'
         verbose_name_plural = '8 - Tccs'
@@ -127,7 +143,7 @@ class tcc(models.Model):
 
 class Defesa(models.Model):
     id_df = models.AutoField(verbose_name="Identificador Apresentacao", primary_key=True)
-    id_tcc_df = models.ForeignKey(tcc, related_name='id_tcc_df', on_delete=models.CASCADE)
+    id_teste = models.ForeignKey(tcc, on_delete=models.CASCADE, default=None, verbose_name="Tema Apresentação TCC")
     id_sala_df = models.ForeignKey(Sala, related_name='id_sala_df', on_delete=models.CASCADE)
     dt_df = models.DateTimeField(verbose_name="Data e Hora da Apresentacao", auto_now=False, auto_now_add=False)
     banca1_df = models.ForeignKey(Professor, related_name='banca1_df', on_delete=models.CASCADE, blank=True, null=True)
@@ -137,10 +153,3 @@ class Defesa(models.Model):
     class Meta:
         verbose_name = '9 - Defesa'
         verbose_name_plural = '9 - Defesas'
-
-class Periodo(models.Model):
-    id_periodo = models.AutoField(verbose_name="Identificador Periodo", primary_key=True)
-    nome_periodo = models.CharField(max_length=6, blank=False, null=False)
-    class Meta:
-        verbose_name = '2 - Periodo'
-        verbose_name_plural = '2 - Periodos'

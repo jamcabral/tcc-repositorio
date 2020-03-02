@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Curso, Turma, Professor, Coordenador, Aluno, Sala, tcc, Defesa
+from admin_auto_filters.filters import AutocompleteFilter
+from .models import Curso, Turma, Professor, Coordenador, Aluno, Sala, tcc, Defesa, Periodo
 
 # Register your models here.
 admin.site.site_header = "TCC SISTEMA"
@@ -7,9 +8,15 @@ admin.site.site_title = "TCC SISTEMA"
 admin.site.index_title = "TCC SISTEMA"
 
 
+class PeriodoAdmin(admin.ModelAdmin):
+    list_display = ('id_periodo', 'nome_periodo', )
+    search_fields = ['id_periodo', 'nome_periodo',]
+admin.site.register(Periodo, PeriodoAdmin)
+
 class CursoAdmin(admin.ModelAdmin):
-    list_display = ('id_curso', 'nome_curso')
-    search_fields = ['id_curso', 'nome_curso']
+    list_display = ('id_curso', 'nome_curso', 'id_periodo_curso',)
+    search_fields = ['id_curso', 'nome_curso', 'id_periodo_curso',]
+    autocomplete_fields = ['id_periodo_curso' ]
 admin.site.register(Curso, CursoAdmin)
 
 
@@ -21,7 +28,8 @@ admin.site.register(Turma, TurmaAdmin)
 
 class ProfessorAdmin(admin.ModelAdmin):
     list_display = ('id_professor', 'nome_professor', 'matricula_professor', 'condicao_professor')
-    search_fields = ['id_professor', 'nome_professor', 'matricula_professor', 'condicao_professor']
+    search_fields = [ 'nome_professor', 'matricula_professor', 'condicao_professor']
+    list_display_links = ('id_professor', 'nome_professor', 'matricula_professor', 'condicao_professor',)
 admin.site.register(Professor, ProfessorAdmin)
 
 
@@ -40,28 +48,25 @@ admin.site.register(Sala, SalaAdmin)
 
 
 class tccAdmin(admin.ModelAdmin):
-    list_display = ('id_tcc', 'id_aluno_tcc', 'id_turma_tcc', 'id_turma_tcc__periodo_turma',  'tema_tcc', 'id_curso_tcc', 'orientador_tcc', 'co_orientador_tcc', 'carta_aceite_tcc', 'convite_banca_tcc', 'marcacao_banca_tcc')
+    list_display = ('id_tcc', 'id_aluno_tcc', 'id_turma_tcc', 'tema_tcc', 'id_curso_tcc', 'orientador_tcc', 'co_orientador_tcc', 'carta_aceite_tcc', 'convite_banca_tcc', 'marcacao_banca_tcc')
     list_select_related = ['id_turma_tcc']
-    search_fields = ['id_turma_tcc__periodo_turma',]
+    search_fields = ['id_aluno_tcc__nome_aluno', 'tema_tcc']
     autocomplete_fields = ['id_aluno_tcc', 'id_turma_tcc', 'id_curso_tcc', 'orientador_tcc', 'co_orientador_tcc', ]
-    def id_turma_tcc__periodo_turma(self, obj): # criar um objeto apartir do forenkey do model, e estanciar o atributo dentro de outro model
-        return obj.id_turma_tcc.periodo_turma # obj."Atributo do model interno"."atributo do model externo"
-    id_turma_tcc__periodo_turma.short_description = 'Turma Periodo'  #Renames column head
-
+    raw_id_fields = ("professor_disciplica_tcc",)
+    list_display_links = ('id_tcc', 'id_aluno_tcc', 'id_turma_tcc', 'tema_tcc', 'id_curso_tcc', 'orientador_tcc', 'co_orientador_tcc', 'carta_aceite_tcc', 'convite_banca_tcc', 'marcacao_banca_tcc',)
 admin.site.register(tcc, tccAdmin)
-
-class DefesaAdmin(admin.ModelAdmin):
-    list_display = ('id_tcc_df', 'id_sala_df', 'dt_df', 'banca1_df', 'banca2_df')
-    search_fields = ['id_tcc_df', 'id_sala_df', 'dt_df', 'banca1_df', 'banca2_df']
-    autocomplete_fields = ['id_sala_df', 'banca1_df', 'banca2_df']
-
-admin.site.register(Defesa, DefesaAdmin)
 
 
 class CoordenadorAdmin(admin.ModelAdmin):
-    list_display = ('id_coordenador', 'nome_coordenador', 'id_curso_coordenador')
-    search_fields = ['id_coordenador', 'nome_coordenador', 'id_curso_coordenador']
+    list_display = ('nome_coordenador', 'id_curso_coordenador', 'status_coordenador', 'dt_inicial', 'dt_final',)
+    search_fields = ['nome_coordenador', 'id_curso_coordenador__nome_curso', 'status_coordenador', ]
     autocomplete_fields = ['id_curso_coordenador']
 admin.site.register(Coordenador, CoordenadorAdmin)
 
 
+
+class DefesaAdmin(admin.ModelAdmin):
+    list_display = ('id_teste', 'id_sala_df', 'banca1_df', 'banca2_df')
+    search_fields = ['id_teste__tema_tcc']
+    autocomplete_fields = ['id_teste', 'id_sala_df', 'banca1_df', 'banca2_df']
+admin.site.register(Defesa, DefesaAdmin)

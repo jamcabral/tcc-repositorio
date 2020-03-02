@@ -68,5 +68,6 @@ admin.site.register(Coordenador, CoordenadorAdmin)
 class DefesaAdmin(admin.ModelAdmin):
     list_display = ('id_teste', 'id_sala_df', 'banca1_df', 'banca2_df')
     search_fields = ['id_teste__tema_tcc']
+    search_fields = ['id_teste__tema_tcc', 'id_sala_df__nome_sala', 'banca1_df__nome_professor', 'banca2_df__nome_professor', ]
     autocomplete_fields = ['id_teste', 'id_sala_df', 'banca1_df', 'banca2_df']
 admin.site.register(Defesa, DefesaAdmin)

@@ -42,7 +42,7 @@ class Turma(models.Model):
     periodo_turma = models.CharField(verbose_name="Periodo Turma", max_length=6)
     status_turma = models.CharField(verbose_name="Em Andamento ou Encerrada", max_length=50, choices=STATUS_TURMA_CHOICE.choices, default=STATUS_TURMA_CHOICE.ATIVO, blank=True, null=True)
     def __str__(self):
-        return self.nome_turma
+        return 'Turma: ' + self.nome_turma + '  |   Periodo: ' + self.periodo_turma
     class Meta:
         verbose_name = '5 - Turma'
         verbose_name_plural = '5 - Turmas'

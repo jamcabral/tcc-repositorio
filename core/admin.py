@@ -48,9 +48,9 @@ admin.site.register(Sala, SalaAdmin)
 
 
 class tccAdmin(admin.ModelAdmin):
-    list_display = ('id_tcc', 'id_aluno_tcc', 'id_turma_tcc', 'tema_tcc', 'id_curso_tcc', 'orientador_tcc', 'co_orientador_tcc', 'carta_aceite_tcc', 'convite_banca_tcc', 'marcacao_banca_tcc')
+    list_display = ('id_tcc', 'id_aluno_tcc', 'id_turma_tcc',  'tema_tcc', 'id_curso_tcc', 'orientador_tcc', 'co_orientador_tcc', 'carta_aceite_tcc', 'convite_banca_tcc', 'marcacao_banca_tcc')
     list_select_related = ['id_turma_tcc']
-    search_fields = ['id_aluno_tcc__nome_aluno', 'tema_tcc']
+    search_fields = ['id_aluno_tcc__nome_aluno', 'tema_tcc', 'id_turma_tcc__nome_turma', 'id_turma_tcc__periodo_turma']
     autocomplete_fields = ['id_aluno_tcc', 'id_turma_tcc', 'id_curso_tcc', 'orientador_tcc', 'co_orientador_tcc', ]
     raw_id_fields = ("professor_disciplica_tcc",)
     list_display_links = ('id_tcc', 'id_aluno_tcc', 'id_turma_tcc', 'tema_tcc', 'id_curso_tcc', 'orientador_tcc', 'co_orientador_tcc', 'carta_aceite_tcc', 'convite_banca_tcc', 'marcacao_banca_tcc',)

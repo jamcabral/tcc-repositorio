@@ -146,7 +146,7 @@ class Defesa(models.Model):
     id_df = models.AutoField(verbose_name="Identificador Apresentacao", primary_key=True)
     id_teste = models.ForeignKey(tcc, on_delete=models.CASCADE, default=None, verbose_name="Tema Apresentação TCC")
     id_sala_df = models.ForeignKey(Sala, related_name='id_sala_df', on_delete=models.CASCADE)
-    dt_df = models.DateTimeField(verbose_name="Data e Hora da Apresentacao", auto_now=False, auto_now_add=False)
+    dt_df = models.DateTimeField()
     banca1_df = models.ForeignKey(Professor, related_name='banca1_df', on_delete=models.CASCADE, blank=True, null=True)
     banca2_df = models.ForeignKey(Professor, related_name='banca2_df', on_delete=models.CASCADE, blank=True, null=True)
     def __str__(self):

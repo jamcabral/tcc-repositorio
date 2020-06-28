@@ -23,9 +23,8 @@ class Periodo(models.Model):
 class Curso(models.Model):
     id_curso = models.AutoField(verbose_name="Identificador Curso", primary_key=True)
     nome_curso = models.CharField(verbose_name="Nome do Curso", max_length=50)
-    id_periodo_curso = models.ForeignKey (Periodo, related_name='id_periodo_curso', on_delete=models.CASCADE, blank=True, null=True)
     def __str__(self):
-        return 'Curso: ' + self.nome_curso + '  |   Periodo: ' + self.id_periodo_curso.nome_periodo
+        return 'Curso: ' +self.nome_curso 
     class Meta:
         verbose_name = '1 - Curso'
         verbose_name_plural = '1 - Cursos'
@@ -39,10 +38,11 @@ class Turma(models.Model):
     id_turma = models.AutoField(primary_key=True)
     nome_turma = models.CharField(verbose_name="Nome da Turma", max_length=50)
     id_curso_turma = models.ForeignKey(Curso, verbose_name="Curso", related_name="id_curso_turma", on_delete=models.CASCADE)
-    periodo_turma = models.CharField(verbose_name="Periodo Turma", max_length=6)
+    id_periodo_turma = models.ForeignKey (Periodo, related_name='id_periodo_turma', on_delete=models.CASCADE, blank=True, null=True)
     status_turma = models.CharField(verbose_name="Em Andamento ou Encerrada", max_length=50, choices=STATUS_TURMA_CHOICE.choices, default=STATUS_TURMA_CHOICE.ATIVO, blank=True, null=True)
     def __str__(self):
-        return 'Turma: ' + self.nome_turma + '  |   Periodo: ' + self.periodo_turma
+        return 'Turma: ' + self.nome_turma 
+        #+ '  |   Periodo: ' + self.id_periodo_turma__nome_periodo
     class Meta:
         verbose_name = '5 - Turma'
         verbose_name_plural = '5 - Turmas'
@@ -77,7 +77,7 @@ class Coordenador(models.Model):
     nome_coordenador = models.CharField(verbose_name="Nome Coordenador", max_length=50)
     matricula_coordenador = models.CharField(verbose_name="Matricula Coordenador", max_length=50)
     id_curso_coordenador = models.ForeignKey(Curso, related_name='id_curso_coordenador', verbose_name="Curso", on_delete=models.CASCADE)
-    status_coordenador = models.CharField(verbose_name="Externo ou Interno", max_length=50, choices=STATUS_CHOICE.choices, default=STATUS_CHOICE.ATIVO)
+    status_coordenador = models.CharField(verbose_name="Ativo ou Inativo", max_length=50, choices=STATUS_CHOICE.choices, default=STATUS_CHOICE.ATIVO)
     dt_inicial = models.DateField(verbose_name="Data Inicial")
     dt_final = models.DateField(verbose_name="Data Final", blank=True, null=True)
     def __str__(self):
@@ -93,7 +93,6 @@ class Aluno(models.Model):
     nome_aluno = models.CharField(verbose_name="Nome Aluno", max_length=50)
     matricula_aluno = models.CharField(verbose_name="Matricula Aluno", max_length=15)
     id_curso_aluno = models.ForeignKey(Curso, related_name="id_curso_aluno", verbose_name="Curso", on_delete=models.CASCADE)
-    periodo_aluno = models.CharField(verbose_name="Periodo Turma", max_length=6)
     def __str__(self):
         return  self.nome_aluno
     class Meta:
@@ -124,10 +123,9 @@ class tcc(models.Model):
 
     id_tcc = models.AutoField(primary_key=True)
     professor_disciplica_tcc = models.ForeignKey(Professor, related_name='professor_disciplica_tcc', on_delete=models.CASCADE)
-    id_aluno_tcc = models.ForeignKey(Aluno, related_name='id_aluno_tcc', on_delete=models.CASCADE)
-    id_turma_tcc = models.ForeignKey(Turma, on_delete=models.CASCADE)
+    id_aluno_tcc = models.ForeignKey(Aluno,verbose_name="Aluno", related_name='id_aluno_tcc', on_delete=models.CASCADE)
+    id_turma_tcc = models.ForeignKey(Turma,verbose_name="Turma", on_delete=models.CASCADE)
     tema_tcc = models.CharField(verbose_name="Tema TCC", max_length=100)
-    id_curso_tcc = models.ForeignKey(Curso, related_name='id_curso_tcc', on_delete=models.CASCADE)
     orientador_tcc = models.ForeignKey(Professor, related_name='orientador_tcc', on_delete=models.CASCADE)
     co_orientador_tcc = models.ForeignKey(Professor, related_name='co_orientador_tcc', on_delete=models.CASCADE)
     carta_aceite_tcc = models.FileField(verbose_name="CartadeAceita", upload_to=tcc_directory_path, blank=True, null=True)

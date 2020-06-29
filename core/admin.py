@@ -15,7 +15,7 @@ admin.site.register(Periodo, PeriodoAdmin)
 
 class CursoAdmin(admin.ModelAdmin):
     list_display = ('nome_curso',)
-    search_fields = ['nome_curso', 'id_periodo_curso__nome_periodo',]
+    search_fields = ['nome_curso', ]
     #autocomplete_fields = ['id_periodo_curso' ]
 admin.site.register(Curso, CursoAdmin)
 

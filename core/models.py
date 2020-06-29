@@ -41,7 +41,7 @@ class Turma(models.Model):
     id_periodo_turma = models.ForeignKey (Periodo, related_name='id_periodo_turma', on_delete=models.CASCADE, blank=True, null=True)
     status_turma = models.CharField(verbose_name="Em Andamento ou Encerrada", max_length=50, choices=STATUS_TURMA_CHOICE.choices, default=STATUS_TURMA_CHOICE.ATIVO, blank=True, null=True)
     def __str__(self):
-        return 'Turma: ' + self.nome_turma 
+        return 'Turma: ' + self.nome_turma + '  |  Periodo: ' + self.id_periodo_turma.nome_periodo
         #+ '  |   Periodo: ' + self.id_periodo_turma__nome_periodo
     class Meta:
         verbose_name = '5 - Turma'

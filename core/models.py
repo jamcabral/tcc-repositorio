@@ -128,7 +128,7 @@ class tcc(models.Model):
     tema_tcc = models.CharField(verbose_name="Tema TCC", max_length=100)
     orientador_tcc = models.ForeignKey(Professor, related_name='orientador_tcc', on_delete=models.CASCADE)
     co_orientador_tcc = models.ForeignKey(Professor, related_name='co_orientador_tcc', on_delete=models.CASCADE)
-    carta_aceite_tcc = models.FileField(verbose_name="Cartade Aceita", upload_to=tcc_directory_path, blank=True, null=True)
+    carta_aceite_tcc = models.FileField(verbose_name="Carta de Aceita", upload_to=tcc_directory_path, blank=True, null=True)
     convite_banca_tcc = models.FileField(verbose_name="Convite Banca", upload_to=tcc_directory_path , blank=True, null=True)
     marcacao_banca_tcc = models.FileField(verbose_name="Marcação Banca", upload_to=tcc_directory_path, blank=True, null=True)
     entrega_cd_tcc = models.CharField(max_length=50, choices=STATUS_CD_CHOICE.choices, default=STATUS_CD_CHOICE.Nao)

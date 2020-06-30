@@ -1,7 +1,7 @@
+{% load static %}
 <!doctype html>
 <html class="no-js" lang="pt-br">
 <head>
-{% load static %}
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>TCC</title>
@@ -42,8 +42,8 @@
 <br><br><br>
 
 {% for defesa in defesa %}
-
 <div id="accordion">
+  {% if  defesa.dt_df  >=  time  %}
   <div class="card">
     <div class="card-header" id="heading{{ defesa.id_df }}">
       <h5 class="mb-0">
@@ -60,7 +60,7 @@
       <p>Localização: {{ defesa.id_sala_df.localizacao_sala }}</p>
       <p> Banca: {{ defesa.banca1_df }}</p> 
       <p>Banca: {{ defesa.banca2_df }}</p>
-
+      <p>{{ time }}</p>
 
 <!-- Criar Filtros para Visualização do Table-->
 
@@ -68,7 +68,7 @@
     </div>
   </div>
 </div>
-
+  {% endif %}
 {% endfor %}
 
 <!-- Footer -->
